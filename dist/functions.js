@@ -4,8 +4,8 @@ export default function addTask(quantidadeTask, description) {
         id: quantidadeTask + 1,
         description: description,
         status: "todo",
-        createdAt: Date.now(),
-        updatedAt: Date.now()
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
     };
     return novaTask;
 }
