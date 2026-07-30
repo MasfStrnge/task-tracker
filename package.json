@@ -6,6 +6,9 @@
   "author": "Manuela Ferreira",
   "type": "module",
   "main": "task-cli/taskTracker.ts",
+  "bin": {
+    "task-cli": "./dist/taskTracker.ts"
+  },
   "scripts": {
     "build": "tsc",
     "start": "tsc && node dist/taskTracker.js"
