@@ -1,66 +1,49 @@
-#!/usr/bin/env node //shebang
+#!/usr/bin/env node
+import addTask from './taskService.js'
 
-import readline from 'node:readline/promises';
-import { stdin as input, stdout as output } from 'node:process';
-import { promises as fs } from 'node:fs';
-import { type Task } from './type.js';
-import addTask from './functions.js'
+console.log("Welcome to Task Tracker 1.0!");
+console.log("Usage: task-cli <command>");
+console.log("List of commands:")
+console.log("task-cli add [description] - to add a task");
 
-const rl = readline.createInterface({ input, output });
+startPrompt();
 
-let quantidadeTask: number = 0;
-
-console.log("====================================\n");
-console.log("        TASK TRACKER 1.0            \n");
-console.log("====================================\n");
-
-console.log("Use the command bellow: ");
-console.log("add [description]");
-coletarDados();
-
-async function coletarDados() {
-
-    process.argv[3] = '';
-
-    const [,, command, description] = process.argv;
-
-    switch (command) {
-        case 'add':
-        
-        const task: Task = addTask(quantidadeTask, description);
-        salvarDados(task);
-
-        break;
-    }
-
-    process.exit;
-}
-
-async function salvarDados(task: Task) {
+async function startPrompt() {
 
     try {
 
-        const json = JSON.stringify(task, null, 2);
+        const argumentos = process.argv.slice(2);
 
-        await fs.writeFile('tasks.json', json);
-        console.log('Task created!\n');
-        quantidadeTask++;
+        const command = argumentos[0];
 
+        switch (command) {
 
-    } catch (err) {
-        console.error('Error in creating task, try again');
+            case 'add': {
+
+                try {
+
+                const description = argumentos[1] ? argumentos[1].toString() : '';
+                addTask(description);
+                console.log("Task was added to the list!")
+
+                } catch(error) {
+
+                    console.error(error);
+
+                }
+
+                break;
+
+            }
+
+        }
+
+        process.exit;
+
+    } catch (error) {
+
+        console.error("Type help to see all available commands!", error);
     }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
 

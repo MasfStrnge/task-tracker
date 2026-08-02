@@ -7,7 +7,7 @@
   "type": "module",
   "main": "task-cli/taskTracker.ts",
   "bin": {
-    "task-cli": "./dist/taskTracker.ts"
+    "task-cli": "./dist/taskTracker.js"
   },
   "scripts": {
     "build": "tsc",
