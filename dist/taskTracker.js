@@ -1,9 +1,5 @@
 #!/usr/bin/env node
-import addTask from './taskService.js';
-console.log("Welcome to Task Tracker 1.0!");
-console.log("Usage: task-cli <command>");
-console.log("List of commands:");
-console.log("task-cli add [description] - to add a task");
+import { addTask, updateTask } from './taskService.js';
 startPrompt();
 async function startPrompt() {
     try {
@@ -11,14 +7,26 @@ async function startPrompt() {
         const command = argumentos[0];
         switch (command) {
             case 'add': {
-                try {
-                    const description = argumentos[1] ? argumentos[1].toString() : '';
-                    addTask(description);
-                    console.log("Task was added to the list!");
+                const description = argumentos[1] ? argumentos[1].toString() : '';
+                addTask(description);
+                console.log("Task was added successfully");
+                break;
+            }
+            case 'update': {
+                const task_id = Number(argumentos[1]);
+                const updateDescription = argumentos[2];
+                if (updateDescription) {
+                    updateTask(task_id, updateDescription);
+                    console.log("Task " + task_id + "was updated successfully!");
                 }
-                catch (error) {
-                    console.error(error);
-                }
+                break;
+            }
+            default: {
+                console.log("Welcome to Task Tracker 1.0!");
+                console.log("Usage: task-cli <command>");
+                console.log("List of commands:");
+                console.log("task-cli add [description] - to add a task");
+                console.log("task-cli update 1 [New Description] - to update an existing task");
                 break;
             }
         }
