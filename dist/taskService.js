@@ -1,6 +1,6 @@
 import {} from "./type.js";
 import { readTasksFromFile, writeTaskFromFile } from "./storage.js";
-export default async function addTask(description) {
+export async function addTask(description) {
     const tasks = await readTasksFromFile();
     const novaTask = {
         id: tasks.length,
@@ -11,5 +11,20 @@ export default async function addTask(description) {
     };
     tasks.push(novaTask);
     writeTaskFromFile(tasks);
+}
+;
+export async function updateTask(task_id, newDescription) {
+    try {
+        const tasks = await readTasksFromFile();
+        const task = tasks.find(t => t.id === task_id);
+        if (task) {
+            task.description = newDescription;
+            task.updatedAt = new Date().toISOString();
+            await writeTaskFromFile(tasks);
+        }
+    }
+    catch (error) {
+        console.error("Error in updating task's description!", error);
+    }
 }
 //# sourceMappingURL=taskService.js.map

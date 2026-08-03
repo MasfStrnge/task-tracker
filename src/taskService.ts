@@ -1,7 +1,7 @@
 import { type Task } from "./type.js";
 import { readTasksFromFile, writeTaskFromFile } from "./storage.js";
 
-export default async function addTask( description: string): Promise<void> {
+export async function addTask( description: string): Promise<void> {
 
     const tasks: Task[] = await readTasksFromFile();
 
@@ -16,4 +16,30 @@ export default async function addTask( description: string): Promise<void> {
     tasks.push(novaTask);
     writeTaskFromFile(tasks);
 
+};
+
+
+export async function updateTask(task_id: number, newDescription: string): Promise<void> {
+    
+    try {
+
+    const tasks: Task[] = await readTasksFromFile();
+
+    const task = tasks.find(t => t.id === task_id);
+
+    if(task)   {
+
+        task.description = newDescription;
+        task.updatedAt = new Date().toISOString();
+        
+        await writeTaskFromFile(tasks)
+
+    } 
+
+    } catch(error) {
+
+        console.error("Error in updating task's description!", error);
+
+    }
+   
 }
